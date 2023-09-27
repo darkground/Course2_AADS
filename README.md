@@ -1,2 +1,2 @@
-# Course 2 Computer Organization
-T1P1_Representations - Представления в памяти
+# Course 2 Algorithms And Data Structures
+T1P1_Structures - Структуры и Алгоритм сортировочной станции
