@@ -8,7 +8,6 @@ struct LinkedNode {
 };
 
 class LinkedList {
-private:
     unsigned len;
     LinkedNode* head;
 
@@ -19,11 +18,14 @@ public:
     unsigned length();
     void clear();
     int at(unsigned);
+    int search(int);
 
     void insert(unsigned, int v);
     void append(int v);
     void remove(unsigned);
+    void remove(int);
     void swap(unsigned, unsigned);
+    void swap(int, int);
 
     friend std::ostream& operator<<(std::ostream&, LinkedList);
 };

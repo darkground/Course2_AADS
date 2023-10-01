@@ -66,8 +66,17 @@ void LinkedList::remove(unsigned index) {
 }
 
 /*
-* Удалить список И все его элементы.
-* unsigned index - индекс в списке
+* Удалить элемент по значению. При ненайденном значении ничего не произойдёт.
+* int value - элемент в списке
+*/
+void LinkedList::remove(int value) {
+    int idx = search(value);
+    if (idx != -1)
+        remove(idx);
+}
+
+/*
+* Очистить список.
 */
 void LinkedList::clear() {
     LinkedNode* next;
@@ -85,10 +94,24 @@ void LinkedList::clear() {
 * unsigned index - индекс в списке
 */
 int LinkedList::at(unsigned index) {
+    LinkedNode* node = node_at(index);
+    return node == 0 ? 0 : node->value;
+}
+
+/*
+* Поиск элемента в списке. Если не найден, вернёт -1.
+* int value - элемент в списке
+*/
+int LinkedList::search(int value) {
     LinkedNode* node = head;
-    while (node && (index--))
+    unsigned index = 0;
+    while (node) {
+        if (node->value == value)
+            return index;
+        index++;
         node = node->next;
-    return node->value;
+    }
+    return -1;
 }
 
 /*
@@ -164,6 +187,19 @@ void LinkedList::swap(unsigned index1, unsigned index2) {
         head = node2;
     else if (head == node2)
         head = node1;
+}
+
+/*
+* Поменять элементы местами по значению. При ненайденных элементах ничего не произойдёт.
+* int value1 - первый элемент в списке
+* int value2 - второй элемент в списке
+*/
+void LinkedList::swap(int value1, int value2) {
+    int idx1 = search(value1);
+    int idx2 = search(value2);
+    if (idx1 == -1 || idx2 == -1)
+        return;
+    swap(idx1, idx2);
 }
 
 std::ostream& operator<<(std::ostream& os, LinkedList s) {
