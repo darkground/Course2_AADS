@@ -118,10 +118,15 @@ void Stack::clear() {
 }
 
 std::ostream& operator<<(std::ostream& os, Stack s) {
+	os << "Stack[";
 	StackNode* h = s.head;
-	while (h) {
-		os << h->value << " ";
-		h = h->next;
+	while (true) {
+		os << h->value;
+		if (h->next) {
+			os << ", ";
+			h = h->next;
+		} else break;
 	}
+	os << "]";
 	return os;
 }

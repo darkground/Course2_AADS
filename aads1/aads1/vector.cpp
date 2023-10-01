@@ -59,6 +59,18 @@ int Vector::at(unsigned index) {
 }
 
 /*
+* Поиск элемента в динамическом массиве. Если не найден, вернёт -1.
+* int value - элемент в списке
+*/
+int Vector::search(int value) {
+	for (int i = 0; i < length; i++)
+		if (arr[i] == value)
+			return i;
+	return -1;
+}
+
+
+/*
 * Вставить элемент в динамический массив по индексу.
 * unsigned index - индекс
 * int data - элемент
@@ -71,6 +83,16 @@ void Vector::insert(unsigned index, int data) {
 	for (unsigned i = length; i > index; i--)
 		arr[i] = arr[i - 1];
 	arr[index] = data;
+}
+
+/*
+* Удалить элемент из динамического массива по значению. При ненайденном элементе ничего не произойдёт.
+* int value - элемент
+*/
+void Vector::remove(int value) {
+	int idx = search(value);
+    if (idx != -1)
+        remove(idx);
 }
 
 /*
@@ -94,6 +116,19 @@ void Vector::swap(unsigned index1, unsigned index2) {
 }
 
 /*
+* Поменять элементы в динамическом массиве местами. При ненайденных элементах ничего не произойдёт.
+* int value1 - первый элемент в списке
+* int value2 - второй элемент в списке
+*/
+void Vector::swap(int value1, int value2) {
+	int idx1 = search(value1);
+    int idx2 = search(value2);
+    if (idx1 == -1 || idx2 == -1)
+        return;
+    swap(idx1, idx2);
+}
+
+/*
 * Получить длину массива
 */
 unsigned Vector::size() {
@@ -108,7 +143,13 @@ unsigned Vector::cap() {
 }
 
 std::ostream& operator<<(std::ostream& os, Vector s) {
-	for (unsigned i = 0; i < s.size(); i++)
-		os << s.arr[i] << " ";
+	unsigned sz = s.size();
+	os << "Vec[";
+	for (unsigned i = 0; i < sz; i++) {
+		os << s.arr[i];
+		if (i != sz - 1)
+			os << ", ";
+	}
+	os << "]";
 	return os;
 }

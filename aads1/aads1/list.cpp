@@ -128,6 +128,7 @@ LinkedNode* LinkedList::node_at(unsigned index) {
 /*
 * Вставить элемент по индексу. При индексе > length элемент будет добавлен в конец списка.
 * unsigned index - индекс в списке
+* int value - элемент
 */
 void LinkedList::insert(unsigned index, int value) {
     LinkedNode* item = new LinkedNode;
@@ -156,6 +157,7 @@ void LinkedList::insert(unsigned index, int value) {
 
 /*
 * Вставить элемент в конец списка.
+* int value - элемент
 */
 void LinkedList::append(int value) {
     insert(len, value);
@@ -203,10 +205,15 @@ void LinkedList::swap(int value1, int value2) {
 }
 
 std::ostream& operator<<(std::ostream& os, LinkedList s) {
+    os << "List[";
 	LinkedNode* h = s.head;
-	while (h) {
-		os << h->value << " ";
-		h = h->next;
+	while (true) {
+		os << h->value;
+        if (h->next) {
+            os << ", ";
+            h = h->next;
+        } else break; 
 	}
+    os << "]";
 	return os;
 }
