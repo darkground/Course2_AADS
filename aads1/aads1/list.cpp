@@ -5,10 +5,10 @@
 * unsigned n - количество = 0
 */
 LinkedList::LinkedList(unsigned n) {
-    Node* current = 0;
-    Node* next = 0;
+    LinkedNode* current = 0;
+    LinkedNode* next = 0;
     for (unsigned i = 1; i <= n; i++) {
-        current = new Node;
+        current = new LinkedNode;
         current->next = next;
         if (next)
             next->prev = current;
@@ -31,7 +31,7 @@ unsigned LinkedList::size() {
 */
 unsigned LinkedList::length() {
     unsigned length = 0;
-    Node* node = head;
+    LinkedNode* node = head;
     while (node) {
         length++;
         node = node->next;
@@ -45,16 +45,16 @@ unsigned LinkedList::length() {
 */
 void LinkedList::remove(unsigned index) {
     if (index == 0) {
-        Node* item = head->next;
+        LinkedNode* item = head->next;
         delete head;
         item->prev = 0;
         head = item;
         len--;
     }
     else {
-        Node* prevItem = at(index - 1);
+        LinkedNode* prevItem = at(index - 1);
         if (prevItem) {
-            Node* delItem = prevItem->next;
+            LinkedNode* delItem = prevItem->next;
             prevItem->next = delItem->next;
 
             if (prevItem->next)
@@ -70,8 +70,8 @@ void LinkedList::remove(unsigned index) {
 * unsigned index - индекс в списке
 */
 void LinkedList::clear() {
-    Node* next;
-    Node* current = head;
+    LinkedNode* next;
+    LinkedNode* current = head;
     while (current) {
         next = current->next;
         delete current;
@@ -84,8 +84,8 @@ void LinkedList::clear() {
 * Получить элемент по индексу. При индексе > length будет возвращён нулевой указатель.
 * unsigned index - индекс в списке
 */
-Node* LinkedList::at(unsigned index) {
-    Node* node = head;
+LinkedNode* LinkedList::at(unsigned index) {
+    LinkedNode* node = head;
     while (node && (index--))
         node = node->next;
     return node;
@@ -95,19 +95,19 @@ Node* LinkedList::at(unsigned index) {
 * Вставить элемент по индексу. При индексе > length элемент будет добавлен в конец списка.
 * unsigned index - индекс в списке
 */
-Node* LinkedList::insert(unsigned index, int value) {
-    Node* item = new Node;
-    item->data = value;
+LinkedNode* LinkedList::insert(unsigned index, int value) {
+    LinkedNode* item = new LinkedNode;
+    item->value = value;
     if (!head)
         head = item;
     else if (index == 0) {
-        Node* first = head;
+        LinkedNode* first = head;
         head = item;
         item->next = first;
         first->prev = item;
     }
     else {
-        Node* prev = head;
+        LinkedNode* prev = head;
         index--;
         while (prev->next && (index--))
             prev = prev->next;
@@ -124,7 +124,7 @@ Node* LinkedList::insert(unsigned index, int value) {
 /*
 * Вставить элемент в конец списка.
 */
-Node* LinkedList::append(int value) {
+LinkedNode* LinkedList::append(int value) {
     return insert(len, value);
 }
 
@@ -134,8 +134,8 @@ Node* LinkedList::append(int value) {
 * unsigned index2 - второй индекс в списке
 */
 void LinkedList::swap(unsigned index1, unsigned index2) {
-    Node* node1 = at(index1);
-    Node* node2 = at(index2);
+    LinkedNode* node1 = at(index1);
+    LinkedNode* node2 = at(index2);
     if (index1 == index2 || !node1 || !node2)
         return;
     
@@ -157,9 +157,9 @@ void LinkedList::swap(unsigned index1, unsigned index2) {
 }
 
 std::ostream& operator<<(std::ostream& os, LinkedList s) {
-	Node* h = s.head;
+	LinkedNode* h = s.head;
 	while (h) {
-		os << h->data << " ";
+		os << h->value << " ";
 		h = h->next;
 	}
 	return os;

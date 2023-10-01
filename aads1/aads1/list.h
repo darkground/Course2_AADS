@@ -1,21 +1,21 @@
 #pragma once
 #include <ostream>
 
-struct Node {
-    int data = 0;
-    Node* prev = 0;
-    Node* next = 0;
+struct LinkedNode {
+    int value = 0;
+    LinkedNode* prev = 0;
+    LinkedNode* next = 0;
 };
 
 class LinkedList {
 private:
     unsigned len;
-    Node* head;
+    LinkedNode* head;
 public:
     LinkedList(unsigned n = 0);
-    Node* at(unsigned);
-    Node* insert(unsigned, int v);
-    Node* append(int v);
+    LinkedNode* at(unsigned);
+    LinkedNode* insert(unsigned, int v);
+    LinkedNode* append(int v);
     void clear();
     void remove(unsigned);
     void swap(unsigned, unsigned);
