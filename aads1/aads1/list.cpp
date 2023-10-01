@@ -52,7 +52,7 @@ void LinkedList::remove(unsigned index) {
         len--;
     }
     else {
-        LinkedNode* prevItem = at(index - 1);
+        LinkedNode* prevItem = node_at(index - 1);
         if (prevItem) {
             LinkedNode* delItem = prevItem->next;
             prevItem->next = delItem->next;
@@ -84,7 +84,18 @@ void LinkedList::clear() {
 * Получить элемент по индексу. При индексе > length будет возвращён нулевой указатель.
 * unsigned index - индекс в списке
 */
-LinkedNode* LinkedList::at(unsigned index) {
+int LinkedList::at(unsigned index) {
+    LinkedNode* node = head;
+    while (node && (index--))
+        node = node->next;
+    return node->value;
+}
+
+/*
+* Получить LinkedNode по индексу. При индексе > length будет возвращён нулевой указатель.
+* unsigned index - индекс в списке
+*/
+LinkedNode* LinkedList::node_at(unsigned index) {
     LinkedNode* node = head;
     while (node && (index--))
         node = node->next;
@@ -95,7 +106,7 @@ LinkedNode* LinkedList::at(unsigned index) {
 * Вставить элемент по индексу. При индексе > length элемент будет добавлен в конец списка.
 * unsigned index - индекс в списке
 */
-LinkedNode* LinkedList::insert(unsigned index, int value) {
+void LinkedList::insert(unsigned index, int value) {
     LinkedNode* item = new LinkedNode;
     item->value = value;
     if (!head)
@@ -118,14 +129,13 @@ LinkedNode* LinkedList::insert(unsigned index, int value) {
         prev->next = item;
     }
     len++;
-    return item;
 }
 
 /*
 * Вставить элемент в конец списка.
 */
-LinkedNode* LinkedList::append(int value) {
-    return insert(len, value);
+void LinkedList::append(int value) {
+    insert(len, value);
 }
 
 /*
@@ -134,8 +144,8 @@ LinkedNode* LinkedList::append(int value) {
 * unsigned index2 - второй индекс в списке
 */
 void LinkedList::swap(unsigned index1, unsigned index2) {
-    LinkedNode* node1 = at(index1);
-    LinkedNode* node2 = at(index2);
+    LinkedNode* node1 = node_at(index1);
+    LinkedNode* node2 = node_at(index2);
     if (index1 == index2 || !node1 || !node2)
         return;
     

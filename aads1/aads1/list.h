@@ -11,15 +11,17 @@ class LinkedList {
 private:
     unsigned len;
     LinkedNode* head;
+
+    LinkedNode* node_at(unsigned);
 public:
     LinkedList(unsigned n = 0);
     unsigned size();
     unsigned length();
     void clear();
-    LinkedNode* at(unsigned);
+    int at(unsigned);
 
-    LinkedNode* insert(unsigned, int v);
-    LinkedNode* append(int v);
+    void insert(unsigned, int v);
+    void append(int v);
     void remove(unsigned);
     void swap(unsigned, unsigned);
 
