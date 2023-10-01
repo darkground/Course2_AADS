@@ -18,15 +18,15 @@
     <ClCompile Include="aads1.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="dynarr.cpp">
-      <Filter>Файлы ресурсов</Filter>
+    <ClCompile Include="vector.cpp">
+      <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="list.cpp">
-      <Filter>Файлы ресурсов</Filter>
+      <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="dynarr.h">
+    <ClInclude Include="vector.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="list.h">
