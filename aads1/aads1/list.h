@@ -13,14 +13,15 @@ private:
     LinkedNode* head;
 public:
     LinkedList(unsigned n = 0);
-    LinkedNode* at(unsigned);
-    LinkedNode* insert(unsigned, int v);
-    LinkedNode* append(int v);
-    void clear();
-    void remove(unsigned);
-    void swap(unsigned, unsigned);
     unsigned size();
     unsigned length();
+    void clear();
+    LinkedNode* at(unsigned);
+
+    LinkedNode* insert(unsigned, int v);
+    LinkedNode* append(int v);
+    void remove(unsigned);
+    void swap(unsigned, unsigned);
 
     friend std::ostream& operator<<(std::ostream&, LinkedList);
 };
