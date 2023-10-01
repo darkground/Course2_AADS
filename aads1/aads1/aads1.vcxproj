@@ -128,10 +128,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="aads1.cpp" />
+    <ClCompile Include="stack.cpp" />
     <ClCompile Include="vector.cpp" />
     <ClCompile Include="list.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="stack.h" />
     <ClInclude Include="vector.h" />
     <ClInclude Include="list.h" />
   </ItemGroup>
