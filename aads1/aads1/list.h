@@ -1,4 +1,5 @@
 #pragma once
+#include <ostream>
 
 struct Node {
     int data = 0;
@@ -20,4 +21,6 @@ public:
     void swap(unsigned, unsigned);
     unsigned size();
     unsigned length();
+
+    friend std::ostream& operator<<(std::ostream&, LinkedList);
 };

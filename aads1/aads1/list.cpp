@@ -1,4 +1,3 @@
-#include <iostream>
 #include "list.h"
 
 /*
@@ -155,4 +154,13 @@ void LinkedList::swap(unsigned index1, unsigned index2) {
         head = node2;
     else if (head == node2)
         head = node1;
+}
+
+std::ostream& operator<<(std::ostream& os, LinkedList s) {
+	Node* h = s.head;
+	while (h) {
+		os << h->data << " ";
+		h = h->next;
+	}
+	return os;
 }

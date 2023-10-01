@@ -1,9 +1,9 @@
+#pragma once
 #include <string>
-
-using namespace std;
+#include <ostream>
 
 struct StackNode {
-	string value;
+	std::string value;
 	StackNode* next;
 };
 
@@ -15,13 +15,13 @@ public:
 	unsigned size();
 	unsigned length();
 	void clear();
-	string front();
-	string back();
+	std::string front();
+	std::string back();
 	
-	void push(string);
-	string pop();
-	void pushBack(string);
-	string popBack();
+	void push(std::string);
+	std::string pop();
+	void pushBack(std::string);
+	std::string popBack();
 
-	friend ostream& operator<<(ostream&, Stack);
+	friend std::ostream& operator<<(std::ostream&, Stack);
 };

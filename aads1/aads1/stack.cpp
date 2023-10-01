@@ -1,5 +1,3 @@
-#include <iostream>
-#include <fstream>
 #include "stack.h"
 
 Stack::Stack() {
@@ -30,14 +28,14 @@ unsigned Stack::length() {
 /*
 * Получить верхний элемент стека.
 */
-string Stack::front() {
+std::string Stack::front() {
 	return head->value;
 }
 
 /*
 * Получить нижний элемент стека.
 */
-string Stack::back() {
+std::string Stack::back() {
 	if (head == 0)
 		return 0;
 	StackNode* h = head;
@@ -49,7 +47,7 @@ string Stack::back() {
 /*
 * Добавить элемент наверх стека.
 */
-void Stack::push(string data) {
+void Stack::push(std::string data) {
 	StackNode* nnode = new StackNode;
 	nnode->value = data;
 	nnode->next = head;
@@ -60,7 +58,7 @@ void Stack::push(string data) {
 /*
 * Добавить элемент вниз стека.
 */
-void Stack::pushBack(string data) {
+void Stack::pushBack(std::string data) {
 	if (head == 0)
 		return push(data);
 
@@ -78,13 +76,13 @@ void Stack::pushBack(string data) {
 /*
 * Взять элемент сверху стека.
 */
-string Stack::pop() {
+std::string Stack::pop() {
 	if (head == 0)
 		return 0;
 	len--;
 	
 	StackNode* front = head;
-	string v = front->value;
+	std::string v = front->value;
 	head = head->next;
 	delete front;
 	return v;
@@ -93,7 +91,7 @@ string Stack::pop() {
 /*
 * Взять элемент снизу стека.
 */
-string Stack::popBack() {
+std::string Stack::popBack() {
 	if (head == 0 || head->next == 0)
 		return pop();
 	len--;
@@ -103,7 +101,7 @@ string Stack::popBack() {
 		butOne = head->next;	
 
 	StackNode* bottom = butOne->next; 
-	string v = bottom->value;
+	std::string v = bottom->value;
 	butOne->next = 0;
 	delete bottom;
 	return v;
@@ -119,7 +117,7 @@ void Stack::clear() {
 	delete head;
 }
 
-ostream& operator<<(ostream& os, Stack s) {
+std::ostream& operator<<(std::ostream& os, Stack s) {
 	StackNode* h = s.head;
 	while (h) {
 		os << h->value << " ";

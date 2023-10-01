@@ -1,4 +1,3 @@
-#include <iostream>
 #include "vector.h"
 
 /*
@@ -106,4 +105,10 @@ unsigned Vector::size() {
 */
 unsigned Vector::cap() {
 	return capacity;
+}
+
+std::ostream& operator<<(std::ostream& os, Vector s) {
+	for (unsigned i = 0; i < s.size(); i++)
+		os << s.arr[i] << " ";
+	return os;
 }
