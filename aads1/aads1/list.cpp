@@ -7,7 +7,7 @@
 LinkedList::LinkedList(unsigned n) {
     Node* current = 0;
     Node* next = 0;
-    for (int i = 1; i <= n; i++) {
+    for (unsigned i = 1; i <= n; i++) {
         current = new Node;
         current->next = next;
         if (next)
