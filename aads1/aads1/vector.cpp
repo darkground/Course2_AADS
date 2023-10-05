@@ -78,11 +78,10 @@ int Vector::search(int value) {
 void Vector::insert(unsigned index, int data) {
 	if (length == capacity)
 		resize(capacity * 2);
-	length++;
-
 	for (unsigned i = length; i > index; i--)
 		arr[i] = arr[i - 1];
 	arr[index] = data;
+	length++;
 }
 
 /*
@@ -92,7 +91,7 @@ void Vector::insert(unsigned index, int data) {
 void Vector::remove(int value) {
 	int idx = search(value);
     if (idx != -1)
-        remove(idx);
+        remove((unsigned)idx);
 }
 
 /*
@@ -125,7 +124,7 @@ void Vector::swap(int value1, int value2) {
     int idx2 = search(value2);
     if (idx1 == -1 || idx2 == -1)
         return;
-    swap(idx1, idx2);
+    swap((unsigned)idx1, (unsigned)idx2);
 }
 
 /*
