@@ -9,8 +9,7 @@
 using namespace std;
 
 const string OPS_ALL[] = {
-    "**", "//",
-    "*", "/", "-", "+", "^",
+    "**", "*", "/", "-", "+", "^",
     "(", ")",
     "sin", "cos", "tan", "cot"
 };
@@ -24,7 +23,6 @@ const map<string, int> OPS_WEIGHTS = {
     {"-", 1},
     {"*", 2},
     {"/", 2},
-    {"//", 2}, //same as /
 	{"^", 3},
     {"**", 3}, //same as ^
     {"(", 0},
@@ -45,7 +43,7 @@ bool isFunc(const string& str) {
 
 bool isNumber(const string& str) {
     string::const_iterator it = str.begin();
-    while (it != str.end() && isdigit(*it)) ++it;
+    while (it != str.end() && (isdigit(*it) || *it == '.')) ++it;
     return !str.empty() && it == str.end();
 }
 
@@ -65,6 +63,46 @@ string vecToString(vector<string> v) {
     for (string& tok : v)
         result_s += tok + ' ';
     return result_s;
+}
+
+double operation(std::string op, double a, double b) {
+    switch (op[0]) {
+        case '+': return a + b;
+        case '-': return a - b;
+        case '*': return op.size() > 1 ? pow(a, b) : a * b;
+        case '/': return a / b;
+        case '^': return pow(a, b);
+        case 's': return sin(a);
+        case 'c': return op[2] == 's' ?  cos(a) : (1 / tan(a));
+        case 't': return tan(a);
+        default: return 0;
+    }
+}
+
+double compute(vector<string> rpn) {
+	Stack outStack;
+    for (auto& token : rpn) {
+        cout << token << " " << outStack << endl;
+        if (isNumber(token))
+			outStack.pushBack(token);
+        else {
+            if (isFunc(token)) {
+                double val;
+                val = stod(outStack.popBack());
+                outStack.pushBack(to_string(operation(token, val, 0)));
+            } else {
+                if (outStack.size() < 2)
+                    throw "Invalid operation order";
+                double left, right;
+                right = stod(outStack.popBack());
+                left = stod(outStack.popBack());
+                outStack.pushBack(to_string(operation(token, left, right)));
+            }   
+        }
+    }
+	if (outStack.size() != 1)
+		throw "Invalid stack size";
+	return stod(outStack.pop());
 }
 
 vector<string> tokenize(string text) {
@@ -128,10 +166,14 @@ int main()
 {
     string ex = "5**4 + 3sin(12 + 1) + 2(2*4 ^ 7 - 2)";
     cout << "example: " << ex << endl;
-    cout << "result: " << vecToString(rpn(ex)) << endl;
+    vector<string> exv = rpn(ex);
+    cout << "rpn: " << vecToString(exv) << endl;
+    cout << "result: " << compute(exv) << endl;
     while (true) {
         string i;
         getline(cin, i);
-        cout << "result: " << vecToString(rpn(i)) << endl;
+        vector<string> v = rpn(i);
+        cout << "rpn: " << vecToString(v) << endl;
+        cout << "result: " << compute(v) << endl;
     }
 }
