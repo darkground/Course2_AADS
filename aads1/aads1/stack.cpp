@@ -118,7 +118,8 @@ void Stack::clear() {
 		head = head->next;
 		delete prev;
 	}
-	delete head;
+	head = 0;
+	len = 0;
 }
 
 std::ostream& operator<<(std::ostream& os, Stack s) {
