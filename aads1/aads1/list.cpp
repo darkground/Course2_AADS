@@ -47,7 +47,8 @@ void LinkedList::remove(unsigned index) {
     if (index == 0) {
         LinkedNode* item = head->next;
         delete head;
-        item->prev = 0;
+        if (item)
+            item->prev = 0;
         head = item;
         len--;
     }
@@ -72,7 +73,7 @@ void LinkedList::remove(unsigned index) {
 void LinkedList::remove(int value) {
     int idx = search(value);
     if (idx != -1)
-        remove(idx);
+        remove((unsigned)idx);
 }
 
 /*
@@ -87,6 +88,7 @@ void LinkedList::clear() {
         current = next;
     }
     head = 0;
+    len = 0;
 }
 
 /*
@@ -201,19 +203,20 @@ void LinkedList::swap(int value1, int value2) {
     int idx2 = search(value2);
     if (idx1 == -1 || idx2 == -1)
         return;
-    swap(idx1, idx2);
+    swap((unsigned)idx1, (unsigned)idx2);
 }
 
 std::ostream& operator<<(std::ostream& os, LinkedList s) {
     os << "List[";
 	LinkedNode* h = s.head;
-	while (true) {
-		os << h->value;
-        if (h->next) {
-            os << ", ";
-            h = h->next;
-        } else break; 
-	}
+    if (s.head != 0)
+        while (true) {
+            os << h->value;
+            if (h->next) {
+                os << ", ";
+                h = h->next;
+            } else break; 
+        }
     os << "]";
 	return os;
 }
