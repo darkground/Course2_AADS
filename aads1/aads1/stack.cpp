@@ -29,6 +29,8 @@ unsigned Stack::length() {
 * Получить верхний элемент стека.
 */
 std::string Stack::front() {
+	if (head == 0)
+		return nullptr;
 	return head->value;
 }
 
@@ -37,7 +39,7 @@ std::string Stack::front() {
 */
 std::string Stack::back() {
 	if (head == 0)
-		return 0;
+		return nullptr;
 	StackNode* h = head;
 	while (h->next)
 		h = h->next;
@@ -78,7 +80,7 @@ void Stack::pushBack(std::string data) {
 */
 std::string Stack::pop() {
 	if (head == 0)
-		return 0;
+		return nullptr;
 	len--;
 	
 	StackNode* front = head;
@@ -98,7 +100,7 @@ std::string Stack::popBack() {
 
 	StackNode* butOne = head;
 	while (butOne->next && butOne->next->next)
-		butOne = head->next;	
+		butOne = butOne->next;
 
 	StackNode* bottom = butOne->next; 
 	std::string v = bottom->value;
@@ -108,6 +110,8 @@ std::string Stack::popBack() {
 }
 
 void Stack::clear() {
+	if (len == 0)
+		return;
 	StackNode* prev = 0;
 	while (head->next) {
 		prev = head;
@@ -120,13 +124,14 @@ void Stack::clear() {
 std::ostream& operator<<(std::ostream& os, Stack s) {
 	os << "Stack[";
 	StackNode* h = s.head;
-	while (true) {
-		os << h->value;
-		if (h->next) {
-			os << ", ";
-			h = h->next;
-		} else break;
-	}
+	if (s.head != 0)
+		while (true) {
+			os << h->value;
+			if (h->next) {
+				os << ", ";
+				h = h->next;
+			} else break;
+		}
 	os << "]";
 	return os;
 }
