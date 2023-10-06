@@ -14,6 +14,7 @@ class LinkedList {
     LinkedNode* node_at(unsigned);
 public:
     LinkedList(unsigned n = 0);
+    ~LinkedList();
     unsigned size();
     unsigned length();
     void clear();
@@ -27,5 +28,5 @@ public:
     void swap(unsigned, unsigned);
     void swap(int, int);
 
-    friend std::ostream& operator<<(std::ostream&, LinkedList);
+    friend std::ostream& operator<<(std::ostream&, LinkedList&);
 };

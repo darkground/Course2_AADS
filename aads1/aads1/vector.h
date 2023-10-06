@@ -7,6 +7,7 @@ class Vector {
 	unsigned length;
 public:
 	Vector(unsigned = 1);
+	~Vector();
 	unsigned size();
 	unsigned cap();
 	void clear();
@@ -21,5 +22,5 @@ public:
 	void swap(unsigned, unsigned);
 	void swap(int, int);
 
-	friend std::ostream& operator<<(std::ostream&, Vector);
+	friend std::ostream& operator<<(std::ostream&, Vector&);
 };

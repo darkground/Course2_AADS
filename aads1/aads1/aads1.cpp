@@ -4,6 +4,7 @@
 #include "list.h"
 #include "vector.h"
 #include "stack.h"
+#include "test.h"
 #include <unordered_map>
 
 using namespace std;
@@ -92,8 +93,8 @@ bool shouldMove(string token, Stack opstack) {
 	return OPS_WEIGHTS.find(opstack.front())->second >= OPS_WEIGHTS.find(token)->second;
 }
 
-bool contains(string s, string sub, unsigned at) {
-    for (unsigned i = at; i < s.size() && (i - at) < sub.size(); i++)
+bool contains(string s, string sub, size_t at) {
+    for (size_t i = at; i < s.size() && (i - at) < sub.size(); i++)
         if (s[i] != sub[i - at])
             return false;
     return true;
@@ -151,7 +152,7 @@ vector<string> tokenize(string text) {
     text.erase(std::remove(text.begin(), text.end(), ' '), text.end());
 
     string current = "";
-    for (int i = 0; i < text.size(); i++) {
+    for (size_t i = 0; i < text.size(); i++) {
         current.clear(); // Clear results received before.
         char c = text[i];
         // If character is a digit
@@ -263,7 +264,7 @@ void linkedListMenu() {
                 ll.clear();
                 break;
             case 6: {
-                int i;
+                unsigned i;
                 do {
                     i = readValue<unsigned>("Enter index: ");
                 } while (i < 0 || i >= ll.size());
@@ -367,7 +368,7 @@ void dynamicArrayMenu() {
                 da.clear();
                 break;
             case 6: {
-                int i;
+                unsigned i;
                 do {
                     i = readValue<unsigned>("Enter index: ");
                 } while (i < 0 || i >= da.size());
@@ -526,6 +527,9 @@ int main() {
                 break;
             case 4:
                 shuntingYardMenu();
+                break;
+            case 5:
+                test();
                 break;
             default:
                 cout << "\nCategory with number " << choice << " does not exist." << endl;

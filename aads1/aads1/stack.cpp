@@ -6,6 +6,13 @@ Stack::Stack() {
 }
 
 /*
+* Деструктор стека
+*/
+Stack::~Stack() {
+    clear();
+}
+
+/*
 * Вернуть длину стека.
 */
 unsigned Stack::size() {
@@ -30,7 +37,7 @@ unsigned Stack::length() {
 */
 std::string Stack::front() {
 	if (head == 0)
-		return nullptr;
+		throw std::runtime_error("Head was null");
 	return head->value;
 }
 
@@ -39,7 +46,7 @@ std::string Stack::front() {
 */
 std::string Stack::back() {
 	if (head == 0)
-		return nullptr;
+		throw std::runtime_error("Head was null");
 	StackNode* h = head;
 	while (h->next)
 		h = h->next;
@@ -80,7 +87,7 @@ void Stack::pushBack(std::string data) {
 */
 std::string Stack::pop() {
 	if (head == 0)
-		return nullptr;
+		throw std::runtime_error("Head was null");
 	len--;
 	
 	StackNode* front = head;
@@ -112,17 +119,18 @@ std::string Stack::popBack() {
 void Stack::clear() {
 	if (len == 0)
 		return;
-	StackNode* prev = 0;
-	while (head->next) {
-		prev = head;
-		head = head->next;
-		delete prev;
+	StackNode* next = 0;
+	StackNode* current = head;
+	while (current) {
+		next = current->next;
+		delete current;
+		current = next;
 	}
 	head = 0;
 	len = 0;
 }
 
-std::ostream& operator<<(std::ostream& os, Stack s) {
+std::ostream& operator<<(std::ostream& os, Stack& s) {
 	os << "Stack[";
 	StackNode* h = s.head;
 	if (s.head != 0)

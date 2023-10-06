@@ -12,6 +12,7 @@ class Stack {
 	StackNode* head;
 public:
 	Stack();
+	~Stack();
 	unsigned size();
 	unsigned length();
 	void clear();
@@ -23,5 +24,5 @@ public:
 	void pushBack(std::string);
 	std::string popBack();
 
-	friend std::ostream& operator<<(std::ostream&, Stack);
+	friend std::ostream& operator<<(std::ostream&, Stack&);
 };

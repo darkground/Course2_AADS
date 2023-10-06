@@ -11,6 +11,13 @@ Vector::Vector(unsigned cap) {
 }
 
 /*
+* Деструктор динамического массива
+*/
+Vector::~Vector() {
+	delete[] arr;
+}
+
+/*
 * Очистить динамический массив.
 */
 void Vector::clear() {
@@ -63,7 +70,7 @@ int Vector::at(unsigned index) {
 * int value - элемент в списке
 */
 int Vector::search(int value) {
-	for (int i = 0; i < length; i++)
+	for (unsigned i = 0; i < length; i++)
 		if (arr[i] == value)
 			return i;
 	return -1;
@@ -141,7 +148,7 @@ unsigned Vector::cap() {
 	return capacity;
 }
 
-std::ostream& operator<<(std::ostream& os, Vector s) {
+std::ostream& operator<<(std::ostream& os, Vector& s) {
 	unsigned sz = s.size();
 	os << "Vec[";
 	for (unsigned i = 0; i < sz; i++) {

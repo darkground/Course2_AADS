@@ -20,6 +20,13 @@ LinkedList::LinkedList(unsigned n) {
 }
 
 /*
+* Деструктор списка
+*/
+LinkedList::~LinkedList() {
+    clear();
+}
+
+/*
 * Вернуть длину списка.
 */
 unsigned LinkedList::size() {
@@ -206,7 +213,7 @@ void LinkedList::swap(int value1, int value2) {
     swap((unsigned)idx1, (unsigned)idx2);
 }
 
-std::ostream& operator<<(std::ostream& os, LinkedList s) {
+std::ostream& operator<<(std::ostream& os, LinkedList& s) {
     os << "List[";
 	LinkedNode* h = s.head;
     if (s.head != 0)
