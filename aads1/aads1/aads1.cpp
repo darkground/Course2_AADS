@@ -89,7 +89,7 @@ bool isNumber(const string& str) {
     return !str.empty() && it == str.end();
 }
 
-bool shouldMove(string token, Stack opstack) {
+bool shouldMove(string& token, Stack& opstack) {
 	return OPS_WEIGHTS.find(opstack.front())->second >= OPS_WEIGHTS.find(token)->second;
 }
 
@@ -124,7 +124,6 @@ double operation(std::string op, double a, double b) {
 double compute(vector<string> rpn) {
 	Stack outStack;
     for (auto& token : rpn) {
-        cout << token << " " << outStack << endl;
         if (isNumber(token))
 			outStack.pushBack(token);
         else {
@@ -134,7 +133,7 @@ double compute(vector<string> rpn) {
                 outStack.pushBack(to_string(operation(token, val, 0)));
             } else {
                 if (outStack.size() < 2)
-                    throw "Invalid operation order";
+                    throw std::runtime_error("Invalid operation order");
                 double left, right;
                 right = stod(outStack.popBack());
                 left = stod(outStack.popBack());
@@ -143,7 +142,7 @@ double compute(vector<string> rpn) {
         }
     }
 	if (outStack.size() != 1)
-		throw "Invalid stack size";
+		throw std::runtime_error("Invalid stack size");
 	return stod(outStack.pop());
 }
 
@@ -153,11 +152,11 @@ vector<string> tokenize(string text) {
 
     string current = "";
     for (size_t i = 0; i < text.size(); i++) {
-        current.clear(); // Clear results received before.
-        char c = text[i];
+        // Clear results received before.
+        current.clear();
         // If character is a digit
-        if (isdigit(c)) {
-            current += c;
+        if (isdigit(text[i])) {
+            current += text[i];
             // Iterate forwards and grab anything that is a digit or delimiter (.)
             for (i++; i < text.size() && (isdigit(text[i]) || text[i] == '.'); i++) current += text[i];
             tokens.push_back(current);
@@ -166,14 +165,18 @@ vector<string> tokenize(string text) {
             i--;
             continue;
         }
+        bool matched = false;
         // Checking characters, if they match some operators
         for (auto& op : OPS_ALL) {
             if (contains(text, op, i)) {
                 i += op.size() - 1;
                 tokens.push_back(op);
+                matched = true;
                 break;
             }
         }
+        if (!matched)
+            throw std::runtime_error("Invalid characters in line");
     }
     return tokens;
 }
@@ -188,7 +191,7 @@ vector<string> rpn(string& inpt_str) {
         else if (token == "(") opStack.push(token);
         else if (token == ")") {
             while (opStack.size() && opStack.front() != "(") result.push_back(opStack.pop());
-            if (opStack.size() == 0) throw "Unpaired bracket encountered";
+            if (opStack.size() == 0) throw std::runtime_error("Unpaired bracket encountered");
             opStack.pop();
         } else if (isOperation(token)) {
             while (opStack.size() && opStack.front() != "(" && shouldMove(token, opStack)) result.push_back(opStack.pop());
@@ -197,7 +200,7 @@ vector<string> rpn(string& inpt_str) {
     }
 
     while (opStack.size()) {
-        if (opStack.front() == "(") throw "Unpaired bracket encountered";
+        if (opStack.front() == "(") throw std::runtime_error("Unpaired bracket encountered");
         result.push_back(opStack.pop());
     }
 
@@ -494,10 +497,17 @@ void shuntingYardMenu() {
         string inp;
         readLine("Enter mathematical expression (0 to cancel): ", &inp);
         if (inp == "0") return;
-        vector<string> tk = tokenize(inp);
-        vector<string> sy = rpn(inp);
-        cout << "Tokenized expression: " << vecToString(tk) << endl; 
-        cout << "Final expression form: " << vecToString(sy) << endl; 
+        try {
+            vector<string> tk = tokenize(inp);
+            vector<string> sy = rpn(inp);
+            cout << "Tokenized expression: " << vecToString(tk) << endl;
+            cout << "Final expression form: " << vecToString(sy) << endl;
+            cout << "Calculated result: " << compute(sy) << endl << endl;
+        }
+        catch (std::runtime_error e) {
+            cout << endl << "Calculation error: " << e.what() << endl;
+        }
+        
     }
 }
 
