@@ -25,10 +25,10 @@ class LinkedList {
     void merge(int, int, int);
     void timMerge(int, int, int);
     void mergeSort(int, int);
+    void insertionSort(int, int);
     void timSort();
     void radixLSDSort();
 public:
-    void insertionSort(int, int);
     LinkedList(unsigned n = 0);
     LinkedList(std::initializer_list<int>);
     LinkedList(unsigned, int, int = 0);
