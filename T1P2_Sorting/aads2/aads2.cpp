@@ -1,6 +1,5 @@
 ﻿#include <iostream>
 #include "list.h"
-#include <stack>
 
 using namespace std;
 
