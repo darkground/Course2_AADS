@@ -21,28 +21,6 @@ LinkedList::LinkedList(unsigned n) {
 }
 
 /*
-* Создание списка с N случайными элементами из диапазона [min = 0, max]
-* unsigned n - количество = 0
-* int max - верхный предел диапазона
-* int min = 0 - нижний предел диапазона
-*/
-LinkedList::LinkedList(unsigned n, int max, int min) {
-    LinkedNode* current = 0;
-    LinkedNode* next = 0;
-    for (unsigned i = 1; i <= n; i++) {
-        current = new LinkedNode;
-        current->value = min + (rand() % (max - min + 1));
-        current->next = next;
-        if (next)
-            next->prev = current;
-        next = current;
-    }
-
-    head = current;
-    len = n;
-}
-
-/*
 * Создание списка из инициализирующего списка
 */
 LinkedList::LinkedList(std::initializer_list<int> init) {
@@ -76,6 +54,23 @@ unsigned LinkedList::length() {
         node = node->next;
     }
     return length;
+}
+
+void LinkedList::random(unsigned n, int max, int min) {
+    clear();
+    LinkedNode* current = 0;
+    LinkedNode* next = 0;
+    for (unsigned i = 1; i <= n; i++) {
+        current = new LinkedNode;
+        current->value = min + (rand() % (max - min + 1));
+        current->next = next;
+        if (next)
+            next->prev = current;
+        next = current;
+    }
+
+    head = current;
+    len = n;
 }
 
 /*
@@ -355,7 +350,7 @@ int LinkedList::minrun() {
 * int r - Правый предел
 */
 void LinkedList::timMerge(int l, int m, int r) {
-    int len1 = m - l + 1;
+    int len1 = m - l;
     int len2 = r - m;
 
     LinkedList left(len1);
@@ -373,8 +368,9 @@ void LinkedList::timMerge(int l, int m, int r) {
     while (i < len1 && j < len2) {
         if (left[i] <= right[j]) {
             at(k++) = left[i++];
+            skipL++;
             skipR = 0;
-            if (!noGallop && ++skipL >= MAX_GALLOP) {
+            if (skipL >= MAX_GALLOP && !noGallop) {
                 int sId = left.bSearch(i, len1, right[j]);
                 for (int x = i; x < sId; x++)
                     at(k++) = left[i++];
@@ -383,8 +379,9 @@ void LinkedList::timMerge(int l, int m, int r) {
             }
         } else {
             at(k++) = right[j++];
+            skipR++;
             skipL = 0;
-            if (!noGallop && ++skipR >= MAX_GALLOP) {
+            if (skipR >= MAX_GALLOP && !noGallop) {
                 int sId = right.bSearch(j, len2, left[i]);
                 for (int x = j; x < sId; x++)
                     at(k++) = right[j++];
@@ -413,7 +410,6 @@ void LinkedList::timSort() {
         int end = std::min(i + minRun, (int)len);
         insertionSort(i, end);
     }
-
     for (int size = minRun; size < len; size = 2 * size) {
         for (int left = 0; left < len; left += 2 * size) {
             int mid = std::min(left + size, (int)len);
@@ -460,7 +456,19 @@ int LinkedList::min() {
 * Сортировка Radix для младшего бита (LSD)
 */
 void LinkedList::radixLSDSort() {
-    int maxv = max();
+    if (head == 0)
+        return;
+    
+    int maxv = head->value;
+    LinkedNode* node = head;
+    while (node) {
+        if (node->value < 0)
+            return;
+        if (node->value > maxv)
+            maxv = node->value;
+        node = node->next;
+    }
+
     int exp = 1;
     int n = size();
 
@@ -519,7 +527,7 @@ void LinkedList::sort(SortingAlgorithm alg = TIM) {
             timSort();
             break;
         case INSERTION:
-            insertionSort(0, size() - 1);
+            insertionSort(0, size());
             break;
         case RADIXLSD:
             radixLSDSort();
