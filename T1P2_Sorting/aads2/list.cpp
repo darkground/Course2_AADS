@@ -78,6 +78,8 @@ void LinkedList::random(unsigned n, int max, int min) {
 * unsigned index - индекс в списке
 */
 void LinkedList::remove(unsigned index) {
+    if (index > len)
+        throw std::runtime_error("remove: out of bounds");
     if (index == 0) {
         LinkedNode* item = head->next;
         delete head;
@@ -132,7 +134,7 @@ void LinkedList::clear() {
 int& LinkedList::at(unsigned index) {
     LinkedNode* node = node_at(index);
     if (node == 0)
-        throw std::runtime_error("Out of bounds");
+        throw std::runtime_error("at: out of bounds");
     return node->value;
 }
 
@@ -169,6 +171,8 @@ LinkedNode* LinkedList::node_at(unsigned index) {
 * int value - элемент
 */
 void LinkedList::insert(unsigned index, int value) {
+    if (index > len)
+        throw std::runtime_error("insert: out of bounds");
     LinkedNode* item = new LinkedNode;
     item->value = value;
     if (!head)
