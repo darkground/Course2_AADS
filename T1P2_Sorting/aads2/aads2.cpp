@@ -82,7 +82,7 @@ int main() {
                 unsigned v = readValue<unsigned>("Enter amount: ");
                 int mn = readValue<int>("Enter min: ");
                 int mx = readValue<int>("Enter max: ");
-                ll = LinkedList(v, mx, mn);
+                ll.random(v, mx, mn);
                 break;
             }
             case 3: {
