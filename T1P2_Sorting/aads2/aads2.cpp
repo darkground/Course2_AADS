@@ -1,5 +1,5 @@
 ﻿#include <iostream>
-#include "list.h"
+#include "vector.h"
 
 using namespace std;
 
@@ -31,7 +31,7 @@ T readValue(const char* prompt = "") {
 }
 
 int main() {
-    LinkedList ll;
+    Vector ll;
 
     while (true) {
         system("cls");
@@ -39,8 +39,8 @@ int main() {
         cout <<
             "Sortings - Choose an action from below:\n"
             "0. Back\n"
-            "1. List continuous input\n"
-            "2. List random\n"
+            "1. Array continuous input\n"
+            "2. Array random\n"
             "3. Append element\n"
             "4. Insert element\n"
             "5. Remove element by index\n"
