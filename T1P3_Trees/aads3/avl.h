@@ -1,6 +1,8 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <queue>
+#include <stack>
 
 struct TreeAVLNode {
     int height;
@@ -54,6 +56,8 @@ public:
     void add(int value);
     unsigned size();
     void destroy();
+
+    std::vector<int> widew();
     std::vector<int> strw();
     std::vector<int> revw();
     std::vector<int> symw();

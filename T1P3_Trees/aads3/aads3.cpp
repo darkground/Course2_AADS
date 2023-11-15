@@ -67,7 +67,8 @@ int main()
             "3. Search element in AVL\n"
             "4. Straight AVL walk\n"
             "5. Reverse AVL walk\n"
-            "6. Symmetrical AVL walk\n\n";
+            "6. Symmetrical AVL walk\n"
+            "7. Wide AVL walk\n\n";
         int choice = readValue<int>("Type a number to continue: ");
         cout << endl;
         switch (choice) {
@@ -93,21 +94,23 @@ int main()
                 break;
             }
             case 4:
-                for (int i : avl.strw()) {
+                for (int i : avl.strw())
                     cout << i << ' ';
-                }
                 cout << endl;
                 break;
             case 5:
-                for (int i : avl.revw()) {
+                for (int i : avl.revw())
                     cout << i << ' ';
-                }
                 cout << endl;
                 break;
             case 6:
-                for (int i : avl.symw()) {
+                for (int i : avl.symw())
                     cout << i << ' ';
-                }
+                cout << endl;
+                break;
+            case 7:
+                for (int i : avl.widew())
+                    cout << i << ' ';
                 cout << endl;
                 break;
             default:

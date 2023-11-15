@@ -222,49 +222,102 @@ void TreeAVL::destroy() {
     root = NULL;
 }
 
-// Straight-walk: Прямой обход АВЛ-дерева
-void TreeAVL::strw(TreeAVLNode* node, std::vector<int>& vec) {
-    if(node){
-        vec.push_back(node->value);
-        strw(node->left, vec);
-        strw(node->right, vec);
-    }
-}
+std::vector<int> TreeAVL::widew() {
+    if (!root)
+        return std::vector<int>();
 
-// Reverse-walk: Обратный обход АВЛ-дерева
-void TreeAVL::revw(TreeAVLNode* node, std::vector<int>& vec) {
-    if(node){
-        revw(node->left, vec);
-        revw(node->right, vec);
-        vec.push_back(node->value);
-    }
-}
+    std::queue<TreeAVLNode*> q;
+    std::vector<int> result;
+    q.push(root);
 
-// Symmetrical-walk: Симметричный обход АВЛ-дерева
-void TreeAVL::symw(TreeAVLNode* node, std::vector<int>& vec) {
-    if(node){
-        symw(node->left, vec);
-        vec.push_back(node->value);
-        symw(node->right, vec);
+    while (!q.empty()) {
+        TreeAVLNode* current = q.front();
+        q.pop();
+
+        result.push_back(current->value);
+
+        if (current->left)
+            q.push(current->left);
+        if (current->right)
+            q.push(current->right);
     }
+
+    return result;
 }
 
 std::vector<int> TreeAVL::strw() {
-    std::vector<int> vec;
-    strw(root, vec);
-    return vec;
-}
+    if (!root)
+        return std::vector<int>();
 
-std::vector<int> TreeAVL::revw() {
-    std::vector<int> vec;
-    revw(root, vec);
-    return vec;
+    std::stack<TreeAVLNode*> s;
+    std::vector<int> result;
+    s.push(root);
+
+    while (!s.empty()) {
+        TreeAVLNode* current = s.top();
+        s.pop();
+
+        result.push_back(current->value);
+
+        if (current->right)
+            s.push(current->right);
+        if (current->left)
+            s.push(current->left);
+    }
+
+    return result;
 }
 
 std::vector<int> TreeAVL::symw() {
-    std::vector<int> vec;
-    symw(root, vec);
-    return vec;
+    if (!root)
+        return std::vector<int>();
+
+    std::stack<TreeAVLNode*> s;
+    std::vector<int> result;
+    TreeAVLNode* current = root;
+
+    while (current || !s.empty()) {
+        while (current) {
+            s.push(current);
+            current = current->left;
+        }
+
+        current = s.top();
+        s.pop();
+
+        result.push_back(current->value);
+
+        current = current->right;
+    }
+
+    return result;
+}
+
+std::vector<int> TreeAVL::revw() {
+    if (!root)
+        return std::vector<int>();
+
+    std::stack<TreeAVLNode*> s1, s2;
+    s1.push(root);
+
+    while (!s1.empty()) {
+        TreeAVLNode* current = s1.top();
+        s1.pop();
+        s2.push(current);
+
+        if (current->left)
+            s1.push(current->left);
+        if (current->right)
+            s1.push(current->right);
+    }
+
+    std::vector<int> result;
+    while (!s2.empty()) {
+        result.push_back(s2.top()->value);
+        s2.pop();
+    }
+
+    return result;
 }
 
 // Малое правое вращение
