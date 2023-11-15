@@ -39,9 +39,6 @@ class TreeAVL {
     TreeAVLNode* insert(int key, TreeAVLNode* node);
     void destroy(TreeAVLNode* node);
     void print(TreeAVLNode* node, const std::string& rpf = "", const std::string& mpf = "", const std::string& lpf = "");
-    void strw(TreeAVLNode* root, std::vector<int>& vec);
-    void revw(TreeAVLNode* root, std::vector<int>& vec);
-    void symw(TreeAVLNode* root, std::vector<int>& vec);
 public:
     TreeAVL(int rootv = 0);
     TreeAVL(std::string s);
