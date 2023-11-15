@@ -1,6 +1,5 @@
 #include <string>
 #include <iostream>
-#include <string>
 
 struct TreeBinaryNode {
     int value;
@@ -9,8 +8,6 @@ struct TreeBinaryNode {
 };
 
 class TreeBinary {
-    unsigned height;
-    unsigned sz;
     TreeBinaryNode* root;
 
     TreeBinaryNode* remove(int key, TreeBinaryNode* node);

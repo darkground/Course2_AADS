@@ -61,8 +61,6 @@ size_t parse(std::string s, TreeBinaryNode*& nd, size_t pos = 1) {
 
 // Создать бинарное дерево
 TreeBinary::TreeBinary(int rootv) {
-    height = 0; //unused
-    sz = 0; //unused
     root = new TreeBinaryNode;
 	root->left = NULL;
     root->right = NULL;
@@ -252,15 +250,15 @@ void TreeBinary::symw(TreeBinaryNode* node) {
 }
 
 void TreeBinary::strw() {
-    return strw(root);
+    strw(root);
 }
 
 void TreeBinary::revw() {
-    return revw(root);
+    revw(root);
 }
 
 void TreeBinary::symw() {
-    return symw(root);
+    symw(root);
 }
 
 std::ostream& operator<<(std::ostream& os, TreeBinary& bt) {
