@@ -31,7 +31,6 @@ class LinkedList {
 public:
     LinkedList(unsigned n = 0);
     LinkedList(std::initializer_list<int>);
-    LinkedList(unsigned, int, int = 0);
     ~LinkedList();
 
     unsigned size();
@@ -43,6 +42,7 @@ public:
     int max();
     int min();
 
+    void random(unsigned, int, int = 0);
     void insert(unsigned, int v);
     void append(int v);
     void remove(unsigned);
