@@ -368,7 +368,13 @@ int Vector::min() {
 * Сортировка Radix для младшего бита (LSD)
 */
 void Vector::radixLSDSort() {
-    int maxv = max();
+    int maxv = arr[0];
+	for (int i = 1; i < length; i++) {
+		if (arr[i] < 0)
+            return;
+        if (arr[i] > maxv)
+			maxv = arr[i];
+	}
 
     int exp = 1;
     int n = size();
