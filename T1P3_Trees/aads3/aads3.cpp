@@ -1,4 +1,6 @@
 ﻿#include <iostream>
+#include <sstream>
+#include <fstream>
 #include "tree.h"
 #include "avl.h"
 
@@ -53,7 +55,22 @@ int main()
             }
         }
     }
-    else { t = new Tree(0); }
+    else {
+        while (true) {
+            ifstream ifs("input.txt");
+            try {
+                stringstream buffer;
+                buffer << ifs.rdbuf();
+                t = new Tree(buffer.str());
+                break;
+            }
+            catch (runtime_error e) {
+                cout << "Parse error: " << e.what() << endl;
+            }
+            ifs.close();
+            system("pause");
+        }
+    }
 
     TreeAVL avl(t->walk());
     while (true) {
