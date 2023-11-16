@@ -1,5 +1,9 @@
+#pragma once
 #include <string>
 #include <iostream>
+#include <vector>
+#include <queue>
+#include <stack>
 
 struct TreeBinaryNode {
     int value;
@@ -24,6 +28,7 @@ class TreeBinary {
 public:
     TreeBinary(int rootv = 0);
     TreeBinary(std::string s);
+    TreeBinary(std::vector<int> v);
     ~TreeBinary();
 
     TreeBinaryNode* min();
@@ -34,9 +39,11 @@ public:
     void add(int value);
     unsigned size();
     void destroy();
-    void strw();
-    void revw();
-    void symw();
+
+    std::vector<int> widew();
+    std::vector<int> strw();
+    std::vector<int> revw();
+    std::vector<int> symw();
 
     friend std::ostream& operator<<(std::ostream&, TreeBinary&);
 };

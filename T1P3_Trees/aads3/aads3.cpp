@@ -3,6 +3,7 @@
 #include <fstream>
 #include "tree.h"
 #include "avl.h"
+#include "bt.h"
 
 using namespace std;
 
@@ -33,11 +34,10 @@ T readValue(const char* prompt = "") {
     }
 }
 
-int main()
-{
+std::vector<int> tree_menu() {
     char choice;
     do {
-        choice = readValue<char>("Read from file or console? (c/f): ");
+        choice = readValue<char>("Read tree from file or console? (c/f): ");
     } while (choice != 'c' && choice != 'f');
 
     Tree* t;
@@ -71,14 +71,84 @@ int main()
             system("pause");
         }
     }
+    return t->walk();
+}
 
-    TreeAVL avl(t->walk());
+void binary_menu(std::vector<int> el) {
+    TreeBinary bt(el);
+    while (true) {
+        system("cls");
+        cout << "Binary Tree:\n" << bt;
+        cout <<
+            "\nChoose a category from below:\n"
+            "0. Back to structures\n"
+            "1. Insert element into BT\n"
+            "2. Delete element from BT\n"
+            "3. Search element in BT\n"
+            "4. Straight BT walk\n"
+            "5. Reverse BT walk\n"
+            "6. Symmetrical BT walk\n"
+            "7. Wide BT walk\n\n";
+        int choice = readValue<int>("Type a number to continue: ");
+        cout << endl;
+        switch (choice) {
+            case 0:
+                return;
+            case 1: {
+                int n = readValue<int>("Input a number to insert: ");
+                bt.add(n);
+                break;
+            }
+            case 2: {
+                int n = readValue<int>("Input a number to delete: ");
+                bt.remove(n);
+                break;
+            }
+            case 3: {
+                int n = readValue<int>("Input a number to search: ");
+                TreeBinaryNode* node = bt.search(n);
+                if (node != NULL)
+                    cout << "Element found: " << node->value << endl;
+                else
+                    cout << "Element not found" << endl;
+                break;
+            }
+            case 4:
+                for (int i : bt.strw())
+                    cout << i << ' ';
+                cout << endl;
+                break;
+            case 5:
+                for (int i : bt.revw())
+                    cout << i << ' ';
+                cout << endl;
+                break;
+            case 6:
+                for (int i : bt.symw())
+                    cout << i << ' ';
+                cout << endl;
+                break;
+            case 7:
+                for (int i : bt.widew())
+                    cout << i << ' ';
+                cout << endl;
+                break;
+            default:
+                cout << "\nCategory with number " << choice << " does not exist." << endl;
+                break;
+        }
+        system("pause");
+    }
+}
+
+void avl_menu(std::vector<int> el) {
+    TreeAVL avl(el);
     while (true) {
         system("cls");
         cout << "AVL Tree:\n" << avl;
         cout <<
-            "Choose a category from below:\n"
-            "0. Exit\n"
+            "\nChoose a category from below:\n"
+            "0. Back to structures\n"
             "1. Insert element into AVL\n"
             "2. Delete element from AVL\n"
             "3. Search element in AVL\n"
@@ -90,7 +160,7 @@ int main()
         cout << endl;
         switch (choice) {
             case 0:
-                return 0;
+                return;
             case 1: {
                 int n = readValue<int>("Input a number to insert: ");
                 avl.add(n);
@@ -135,5 +205,44 @@ int main()
                 break;
         }
         system("pause");
+    }
+}
+
+int choose_menu(std::vector<int> v) {
+    while (true) {
+        system("cls");
+        cout <<
+            "Choose structure:\n"
+            "0. Exit\n"
+            "1. Re-enter tree\n"
+            "2. Binary trees\n"
+            "3. AVL trees\n\n";
+        int choice = readValue<int>("Type a number to continue: ");
+        cout << endl;
+        switch (choice) {
+            case 0:
+                return 1;
+            case 1:
+                return 0;
+            case 2:
+                binary_menu(v);
+                break;
+            case 3:
+                avl_menu(v);
+                break;
+            default:
+                cout << "\nCategory with number " << choice << " does not exist." << endl;
+                break;
+        }
+        system("pause");
+    }
+}
+
+int main()
+{
+    while (true) {
+        system("cls");
+        std::vector<int> v = tree_menu();
+        if (choose_menu(v)) return 0;
     }
 }

@@ -71,6 +71,11 @@ TreeBinary::TreeBinary(std::string s) : TreeBinary(0) {
     parse(s, root);
 }
 
+TreeBinary::TreeBinary(std::vector<int> v) {
+    for (int i : v)
+        add(i);
+}
+
 TreeBinary::~TreeBinary() {
     destroy();
 }
@@ -222,43 +227,102 @@ void TreeBinary::destroy() {
     root = NULL;
 }
 
-// Straight-walk: Прямой обход бинарного дерева
-void TreeBinary::strw(TreeBinaryNode* node) {
-    if(node){
-        std::cout << node->value << ' ';
-        strw(node->left);
-        strw(node->right);
+std::vector<int> TreeBinary::widew() {
+    if (!root)
+        return std::vector<int>();
+
+    std::queue<TreeBinaryNode*> q;
+    std::vector<int> result;
+    q.push(root);
+
+    while (!q.empty()) {
+        TreeBinaryNode* current = q.front();
+        q.pop();
+
+        result.push_back(current->value);
+
+        if (current->left)
+            q.push(current->left);
+        if (current->right)
+            q.push(current->right);
     }
+
+    return result;
 }
 
-// Reverse-walk: Обратный обход бинарного дерева
-void TreeBinary::revw(TreeBinaryNode* node) {
-    if(node){
-        revw(node->left);
-        revw(node->right);
-        std::cout << node->value << ' ';
+std::vector<int> TreeBinary::strw() {
+    if (!root)
+        return std::vector<int>();
+
+    std::stack<TreeBinaryNode*> s;
+    std::vector<int> result;
+    s.push(root);
+
+    while (!s.empty()) {
+        TreeBinaryNode* current = s.top();
+        s.pop();
+
+        result.push_back(current->value);
+
+        if (current->right)
+            s.push(current->right);
+        if (current->left)
+            s.push(current->left);
     }
+
+    return result;
 }
 
-// Symmetrical-walk: Симметричный обход бинарного дерева
-void TreeBinary::symw(TreeBinaryNode* node) {
-    if(node){
-        symw(node->left);
-        std::cout << node->value << ' ';
-        symw(node->right);
+std::vector<int> TreeBinary::symw() {
+    if (!root)
+        return std::vector<int>();
+
+    std::stack<TreeBinaryNode*> s;
+    std::vector<int> result;
+    TreeBinaryNode* current = root;
+
+    while (current || !s.empty()) {
+        while (current) {
+            s.push(current);
+            current = current->left;
+        }
+
+        current = s.top();
+        s.pop();
+
+        result.push_back(current->value);
+
+        current = current->right;
     }
+
+    return result;
 }
 
-void TreeBinary::strw() {
-    strw(root);
-}
+std::vector<int> TreeBinary::revw() {
+    if (!root)
+        return std::vector<int>();
 
-void TreeBinary::revw() {
-    revw(root);
-}
+    std::stack<TreeBinaryNode*> s1, s2;
+    s1.push(root);
 
-void TreeBinary::symw() {
-    symw(root);
+    while (!s1.empty()) {
+        TreeBinaryNode* current = s1.top();
+        s1.pop();
+        s2.push(current);
+
+        if (current->left)
+            s1.push(current->left);
+        if (current->right)
+            s1.push(current->right);
+    }
+
+    std::vector<int> result;
+    while (!s2.empty()) {
+        result.push_back(s2.top()->value);
+        s2.pop();
+    }
+
+    return result;
 }
 
 std::ostream& operator<<(std::ostream& os, TreeBinary& bt) {
