@@ -9,7 +9,7 @@ enum ParseState {
 
 size_t parse(std::string s, TreeNode*& nd, size_t pos = 1) {
     ParseState state = ParseState::VALUE;
-    for (size_t i = pos; s[i]; i++) {
+    for (size_t i = pos; i < s.length(); i++) {
         char c = s[i];
         if (c == '(') {
             switch (state) {
@@ -82,13 +82,13 @@ void Tree::destroy(TreeNode* node) {
     }
 }
 
-void Tree::print(TreeNode* root, const std::string& rpf, const std::string& mpf, const std::string& lpf) {
+void Tree::print(std::ostream& os, TreeNode* root, const std::string& rpf, const std::string& mpf, const std::string& lpf) {
     if (root != NULL) {
         if (root->right)
-            print(root->right, rpf + "   ", rpf + ".-->", rpf + "|  ");
-        std::cout << mpf << root->value << std::endl;
+            print(os, root->right, rpf + "   ", rpf + ".-->", rpf + "|  ");
+        os << mpf << root->value << std::endl;
         if (root->left)
-            print(root->left, lpf + "|  ", lpf + "`-->", lpf + "   ");
+            print(os, root->left, lpf + "|  ", lpf + "`-->", lpf + "   ");
     }
 }
 
@@ -112,6 +112,6 @@ std::vector<int> Tree::walk() {
 }
 
 std::ostream& operator<<(std::ostream& os, Tree& t) {
-    t.print(t.root);
+    t.print(os, t.root);
     return os;
 }

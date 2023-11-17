@@ -1,4 +1,4 @@
-#include <iostream>
+#include <ostream>
 #include <string>
 #include <vector>
 
@@ -13,7 +13,7 @@ class Tree {
 
     void destroy(TreeNode* node);
     void walk(TreeNode* node, std::vector<int>& vec);
-    void print(TreeNode* node, const std::string& rpf = "", const std::string& mpf = "", const std::string& lpf = "");
+    void print(std::ostream& os, TreeNode* node, const std::string& rpf = "", const std::string& mpf = "", const std::string& lpf = "");
 public:
     Tree(int rootv = 0);
     Tree(std::string s);

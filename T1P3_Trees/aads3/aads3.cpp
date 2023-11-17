@@ -34,7 +34,7 @@ T readValue(const char* prompt = "") {
     }
 }
 
-std::vector<int> tree_menu() {
+Tree* tree_menu() {
     char choice;
     do {
         choice = readValue<char>("Read tree from file or console? (c/f): ");
@@ -58,20 +58,24 @@ std::vector<int> tree_menu() {
     else {
         while (true) {
             ifstream ifs("input.txt");
-            try {
-                stringstream buffer;
-                buffer << ifs.rdbuf();
-                t = new Tree(buffer.str());
-                break;
+            if (!ifs.is_open()) {
+                cout << "File not found" << endl;
+            } else {
+                try {
+                    stringstream buffer;
+                    buffer << ifs.rdbuf();
+                    t = new Tree(buffer.str());
+                    break;
+                }
+                catch (runtime_error e) {
+                    cout << "Parse error: " << e.what() << endl;
+                }
+                ifs.close();
             }
-            catch (runtime_error e) {
-                cout << "Parse error: " << e.what() << endl;
-            }
-            ifs.close();
             system("pause");
         }
     }
-    return t->walk();
+    return t;
 }
 
 void binary_menu(std::vector<int> el) {
@@ -208,11 +212,12 @@ void avl_menu(std::vector<int> el) {
     }
 }
 
-int choose_menu(std::vector<int> v) {
+int choose_menu(Tree* t) {
     while (true) {
         system("cls");
+        cout << "Simple tree:\n" << *t;
         cout <<
-            "Choose structure:\n"
+            "\nChoose structure:\n"
             "0. Exit\n"
             "1. Re-enter tree\n"
             "2. Binary trees\n"
@@ -225,10 +230,10 @@ int choose_menu(std::vector<int> v) {
             case 1:
                 return 0;
             case 2:
-                binary_menu(v);
+                binary_menu(t->walk());
                 break;
             case 3:
-                avl_menu(v);
+                avl_menu(t->walk());
                 break;
             default:
                 cout << "\nCategory with number " << choice << " does not exist." << endl;
@@ -242,7 +247,7 @@ int main()
 {
     while (true) {
         system("cls");
-        std::vector<int> v = tree_menu();
-        if (choose_menu(v)) return 0;
+        Tree* t = tree_menu();
+        if (choose_menu(t)) return 0;
     }
 }

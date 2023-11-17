@@ -122,13 +122,13 @@ unsigned TreeAVL::size() {
 }
 
 // Вывод бинарного дерева
-void TreeAVL::print(TreeAVLNode* root, const std::string& rpf, const std::string& mpf, const std::string& lpf) {
+void TreeAVL::print(std::ostream& os, TreeAVLNode* root, const std::string& rpf, const std::string& mpf, const std::string& lpf) {
 	if (root != NULL) {
         if (root->right)
-            print(root->right, rpf + "   ", rpf + ".-->", rpf + "|  ");
-        std::cout << mpf << root->value << std::endl;
+            print(os, root->right, rpf + "   ", rpf + ".-->", rpf + "|  ");
+        os << mpf << root->value << std::endl;
         if (root->left)
-            print(root->left, lpf + "|  ", lpf + "`-->", lpf + "   ");
+            print(os, root->left, lpf + "|  ", lpf + "`-->", lpf + "   ");
     }
 }
 
@@ -369,6 +369,6 @@ TreeAVLNode* TreeAVL::balance(TreeAVLNode* node) {
 }
 
 std::ostream& operator<<(std::ostream& os, TreeAVL& avl) {
-    avl.print(avl.root);
+    avl.print(os, avl.root);
 	return os;
 }

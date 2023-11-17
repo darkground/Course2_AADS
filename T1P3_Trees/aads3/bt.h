@@ -1,6 +1,6 @@
 #pragma once
 #include <string>
-#include <iostream>
+#include <ostream>
 #include <vector>
 #include <queue>
 #include <stack>
@@ -21,10 +21,7 @@ class TreeBinary {
     unsigned size(TreeBinaryNode* node, unsigned size_count = 0);
     void insert(int key, TreeBinaryNode* node);
     void destroy(TreeBinaryNode* node);
-    void print(TreeBinaryNode* node, const std::string& rpf = "", const std::string& mpf = "", const std::string& lpf = "");
-    void strw(TreeBinaryNode* node);
-    void revw(TreeBinaryNode* node);
-    void symw(TreeBinaryNode* node);
+    void print(std::ostream& os, TreeBinaryNode* node, const std::string& rpf = "", const std::string& mpf = "", const std::string& lpf = "");
 public:
     TreeBinary(int rootv = 0);
     TreeBinary(std::string s);

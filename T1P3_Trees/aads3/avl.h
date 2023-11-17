@@ -1,4 +1,4 @@
-#include <iostream>
+#include <ostream>
 #include <string>
 #include <vector>
 #include <queue>
@@ -38,7 +38,7 @@ class TreeAVL {
     unsigned size(TreeAVLNode* node, unsigned size_count = 0);
     TreeAVLNode* insert(int key, TreeAVLNode* node);
     void destroy(TreeAVLNode* node);
-    void print(TreeAVLNode* node, const std::string& rpf = "", const std::string& mpf = "", const std::string& lpf = "");
+    void print(std::ostream& os, TreeAVLNode* node, const std::string& rpf = "", const std::string& mpf = "", const std::string& lpf = "");
 public:
     TreeAVL(int rootv = 0);
     TreeAVL(std::string s);

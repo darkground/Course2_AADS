@@ -118,13 +118,13 @@ unsigned TreeBinary::size() {
 }
 
 // Вывод бинарного дерева
-void TreeBinary::print(TreeBinaryNode* root, const std::string& rpf, const std::string& mpf, const std::string& lpf) {
+void TreeBinary::print(std::ostream& os, TreeBinaryNode* root, const std::string& rpf, const std::string& mpf, const std::string& lpf) {
 	if (root != NULL) {
         if (root->right)
-            print(root->right, rpf + "   ", rpf + ".-->", rpf + "|  ");
-        std::cout << mpf << root->value << std::endl;
+            print(os, root->right, rpf + "   ", rpf + ".-->", rpf + "|  ");
+        os << mpf << root->value << std::endl;
         if (root->left)
-            print(root->left, lpf + "|  ", lpf + "`-->", lpf + "   ");
+            print(os, root->left, lpf + "|  ", lpf + "`-->", lpf + "   ");
     }
 }
 
@@ -326,6 +326,6 @@ std::vector<int> TreeBinary::revw() {
 }
 
 std::ostream& operator<<(std::ostream& os, TreeBinary& bt) {
-    bt.print(bt.root);
+    bt.print(os, bt.root);
 	return os;
 }
