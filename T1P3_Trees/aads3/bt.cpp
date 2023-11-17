@@ -197,7 +197,7 @@ void TreeBinary::insert(int value, TreeBinaryNode* root) {
             root->left->left = NULL;
             root->left->right = NULL;
         }
-    } else if (value >= root->value) {
+    } else if (value > root->value) {
         if (root->right != NULL)
             insert(value, root->right);
         else {
@@ -206,7 +206,7 @@ void TreeBinary::insert(int value, TreeBinaryNode* root) {
             root->right->left = NULL;
             root->right->right = NULL;
         }
-    }
+    } else return;
 }
 
 void TreeBinary::insert(int value) {
