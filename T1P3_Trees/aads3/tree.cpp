@@ -15,7 +15,7 @@ size_t parse(std::string s, TreeNode*& nd, size_t pos = 1) {
             switch (state) {
             case ParseState::END:
             case ParseState::VALUE:
-                throw std::runtime_error("Unexpected opening bracket");
+                throw std::runtime_error("Unexpected opening bracket at pos " + std::to_string(i + 1));
             case ParseState::LBRANCH: {
                 nd->left = new TreeNode();
                 i = parse(s, nd->left, ++i);
@@ -31,21 +31,21 @@ size_t parse(std::string s, TreeNode*& nd, size_t pos = 1) {
             }
         }
         else if (c == ')') {
-            if (state == ParseState::VALUE) throw std::runtime_error("Unexpected closing bracket");
+            if (state == ParseState::VALUE) throw std::runtime_error("Unexpected closing bracket at pos " + std::to_string(i + 1));
             return i;
         }
         else if (c == 'n') {
-            if (state != ParseState::VALUE) throw std::runtime_error("Unexpected value");
+            if (state != ParseState::VALUE) throw std::runtime_error("Unexpected value at pos " + std::to_string(i + 1));
             if ((i < s.length() - 2) && s[i + 1] == 'i' && s[i + 2] == 'l') {
                 delete nd;
                 nd = 0;
                 i += 2;
                 state = ParseState::END;
             }
-            else throw std::runtime_error("Unexpected symbol");
+            else throw std::runtime_error("Unexpected symbol at pos " + std::to_string(i + 1));
         }
         else if (isdigit(c)) {
-            if (state != ParseState::VALUE) throw std::runtime_error("Unexpected value");
+            if (state != ParseState::VALUE) throw std::runtime_error("Unexpected value at pos " + std::to_string(i + 1));
             std::string acc;
             for (; s[i] && isdigit(s[i]); i++)
                 acc.push_back(s[i]);
@@ -54,7 +54,7 @@ size_t parse(std::string s, TreeNode*& nd, size_t pos = 1) {
             state = ParseState::LBRANCH;
         }
         else if (c == ' ') continue;
-        else throw std::runtime_error("Unexpected symbol");
+        else throw std::runtime_error("Unexpected symbol at pos " + std::to_string(i + 1));
     }
     return s.length() - 1;
 }
