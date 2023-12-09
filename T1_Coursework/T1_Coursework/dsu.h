@@ -5,7 +5,10 @@
 class DSU {
 	std::vector<int> parent, rank;
 public:
-	DSU(unsigned n) : parent(n, 0), rank(n, 1) {}
+	DSU(unsigned n) : parent(n, 0), rank(n, 1) {
+		for (unsigned i = 0; i < n; i++)
+			make(i);
+	}
 
 	unsigned find(unsigned v) {
 		return (v == parent[v]) ? v : (parent[v] = find(parent[v]));
