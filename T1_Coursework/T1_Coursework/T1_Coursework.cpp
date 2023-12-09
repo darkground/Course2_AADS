@@ -4,21 +4,11 @@
 
 int main()
 {
-    auto edges = readGraph("input.txt");
-    DSU dsu(edges.size());
+    auto edges = Graph::fromFile("input.txt");
 
-    unsigned n = 0;
-    std::vector<Edge> mst;
-    for (Edge e : edges) {
-        if (dsu.find(e.u) != dsu.find(e.v)) {
-            n += e.weight;
-            mst.push_back(e);
-            dsu.unite(e.u, e.v);
-        }
-    }
-
-    for (Edge e : mst) {
+    auto mst = edges.mst();
+    for (Edge e : mst.get_edges()) {
         std::cout << e.a << ' ' << e.b << std::endl;
     }
-    std::cout << n;
+    std::cout << mst.get_mass();
 }
