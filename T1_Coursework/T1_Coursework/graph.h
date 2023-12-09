@@ -8,9 +8,20 @@
 // Edge Structure
 struct Edge {
     std::string a, b;
-    int weight;
+    int u, v, weight;
     
-    Edge(std::string a_, std::string b_, int w = 0) : a(a_), b(b_), weight(w) {}
+    // Simple
+    Edge(std::string x, std::string y, int w = 0) {
+        a = x;
+        b = y;
+        weight = w;
+    }
+
+    // Named
+    Edge(std::vector<std::string>& named, int x, int y, int w = 0) : Edge(named[x], named[y], w) {
+        u = x;
+        v = y;
+    }
 
     bool operator< (Edge const& other) {
         return weight < other.weight;
@@ -41,7 +52,7 @@ std::vector<Edge> readGraph(std::string path) {
             ifs >> w;
             if (i < j) {
                 if (w <= 0) throw std::runtime_error("Invalid weights in file");
-                Edge e(names[i], names[j], w);
+                Edge e(names, i, j, w);
                 edges.push_back(e);
             }
         }
