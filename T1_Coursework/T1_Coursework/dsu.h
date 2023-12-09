@@ -3,23 +3,23 @@
 
 // Disjoint-Set-Union Structure
 class DSU {
-	std::vector<int> parent, rank;
+	std::vector<size_t> parent, rank;
 public:
-	DSU(unsigned n) : parent(n, 0), rank(n, 1) {
-		for (unsigned i = 0; i < n; i++)
+	DSU(size_t n) : parent(n, 0), rank(n, 1) {
+		for (size_t i = 0; i < n; i++)
 			make(i);
 	}
 
-	unsigned find(unsigned v) {
+	size_t find(size_t v) {
 		return (v == parent[v]) ? v : (parent[v] = find(parent[v]));
 	}
 
-	void make(unsigned v) {
+	void make(size_t v) {
 		parent[v] = v;
 		rank[v] = 1;
 	}
 
-	void unite(unsigned a, unsigned b) {
+	void unite(size_t a, size_t b) {
 		a = find(a);
 		b = find(b);
 		if (a != b) {
