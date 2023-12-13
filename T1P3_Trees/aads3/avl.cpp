@@ -1,5 +1,5 @@
 #include "avl.h"
-#include <iostream>
+
 enum ParseState {
     VALUE = 0,
     LBRANCH = 1,
