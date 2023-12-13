@@ -33,11 +33,12 @@ class TreeAVL {
     TreeAVLNode* root;
 
     TreeAVLNode* remove(int key, TreeAVLNode* node);
+    TreeAVLNode* search(int key, TreeAVLNode* node);
     TreeAVLNode* min(TreeAVLNode* node);
     TreeAVLNode* max(TreeAVLNode* node);
-    TreeAVLNode* search(int key, TreeAVLNode* node);
-    unsigned size(TreeAVLNode* node, unsigned size_count = 0);
+    TreeAVLNode* insert(int key);
     TreeAVLNode* insert(int key, TreeAVLNode* node);
+    unsigned size(TreeAVLNode* node, unsigned size_count = 0);
     void destroy(TreeAVLNode* node);
     void print(std::ostream& os, TreeAVLNode* node, const std::string& rpf = "", const std::string& mpf = "", const std::string& lpf = "");
 public:
@@ -49,8 +50,7 @@ public:
     TreeAVLNode* min();
     TreeAVLNode* max();
     TreeAVLNode* search(int key);
-    TreeAVLNode* remove(int key);
-    TreeAVLNode* insert(int key);
+    void remove(int value);
     void add(int value);
     unsigned size();
     void destroy();

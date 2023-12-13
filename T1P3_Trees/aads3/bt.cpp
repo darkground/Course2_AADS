@@ -7,68 +7,12 @@ enum ParseState {
     END = 3
 };
 
-size_t parse(std::string s, TreeBinaryNode*& nd, size_t pos = 1) {
-    ParseState state = ParseState::VALUE;
-    for (size_t i = pos; s[i]; i++) {
-        char c = s[i];
-        if (c == '(') {
-            switch (state) {
-            case ParseState::END:
-            case ParseState::VALUE:
-                throw std::runtime_error("Unexpected opening bracket at pos " + std::to_string(i + 1));
-            case ParseState::LBRANCH: {
-                nd->left = new TreeBinaryNode();
-                i = parse(s, nd->left, ++i);
-                state = ParseState::RBRANCH;
-                break;
-            }
-            case ParseState::RBRANCH: {
-                nd->right = new TreeBinaryNode();
-                i = parse(s, nd->right, ++i);
-                state = ParseState::END;
-                break;
-            }
-            }
-        }
-        else if (c == ')') {
-            if (state == ParseState::VALUE) throw std::runtime_error("Unexpected closing bracket at pos " + std::to_string(i + 1));
-            return i;
-        }
-        else if (c == 'n') {
-            if (state != ParseState::VALUE) throw std::runtime_error("Unexpected value at pos " + std::to_string(i + 1));
-            if ((i < s.length() - 2) && s[i + 1] == 'i' && s[i + 2] == 'l') {
-                delete nd;
-                nd = 0;
-                i += 2;
-                state = ParseState::END;
-            }
-            else throw std::runtime_error("Unexpected symbol at pos " + std::to_string(i + 1));
-        }
-        else if (isdigit(c)) {
-            if (state != ParseState::VALUE) throw std::runtime_error("Unexpected value at pos " + std::to_string(i + 1));
-            std::string acc;
-            for (; s[i] && isdigit(s[i]); i++)
-                acc.push_back(s[i]);
-            nd->value = stoi(acc);
-            i--;
-            state = ParseState::LBRANCH;
-        }
-        else if (c == ' ') continue;
-        else throw std::runtime_error("Unexpected symbol at pos " + std::to_string(i + 1));
-    }
-    return s.length() - 1;
-}
-
 // Создать бинарное дерево
 TreeBinary::TreeBinary(int rootv) {
     root = new TreeBinaryNode;
 	root->left = NULL;
     root->right = NULL;
 	root->value = rootv;
-}
-
-TreeBinary::TreeBinary(std::string s) : TreeBinary(0) {
-    parse(s, root);
 }
 
 TreeBinary::TreeBinary(std::vector<int> v) {

@@ -1,68 +1,11 @@
 #include "avl.h"
-
+#include <iostream>
 enum ParseState {
     VALUE = 0,
     LBRANCH = 1,
     RBRANCH = 2,
     END = 3
 };
-
-size_t parse(std::string s, TreeAVLNode*& nd, size_t pos = 1) {
-    ParseState state = ParseState::VALUE;
-    for (size_t i = pos; s[i]; i++) {
-        char c = s[i];
-        if (c == '(') {
-            switch (state) {
-            case ParseState::END:
-            case ParseState::VALUE:
-                throw std::runtime_error("Unexpected opening bracket at pos " + std::to_string(i + 1));
-            case ParseState::LBRANCH: {
-                nd->left = new TreeAVLNode();
-                i = parse(s, nd->left, ++i);
-                state = ParseState::RBRANCH;
-                break;
-            }
-            case ParseState::RBRANCH: {
-                nd->right = new TreeAVLNode();
-                i = parse(s, nd->right, ++i);
-                state = ParseState::END;
-                break;
-            }
-            }
-        }
-        else if (c == ')') {
-            if (state == ParseState::VALUE) throw std::runtime_error("Unexpected closing bracket at pos " + std::to_string(i + 1));
-            return i;
-        }
-        else if (c == 'n') {
-            if (state != ParseState::VALUE) throw std::runtime_error("Unexpected value at pos " + std::to_string(i + 1));
-            if ((i < s.length() - 2) && s[i + 1] == 'i' && s[i + 2] == 'l') {
-                delete nd;
-                nd = 0;
-                i += 2;
-                state = ParseState::END;
-            }
-            else throw std::runtime_error("Unexpected symbol");
-        }
-        else if (isdigit(c)) {
-            if (state != ParseState::VALUE) throw std::runtime_error("Unexpected value at pos " + std::to_string(i + 1));
-            std::string acc;
-            for (; s[i] && isdigit(s[i]); i++)
-                acc.push_back(s[i]);
-            if (nd == 0) {
-                nd = new TreeAVLNode;
-                nd->left = NULL;
-                nd->right = NULL;
-            }
-            nd->value = stoi(acc);
-            i--;
-            state = ParseState::LBRANCH;
-        }
-        else if (c == ' ') continue;
-        else throw std::runtime_error("Unexpected symbol at pos " + std::to_string(i + 1));
-    }
-    return s.length() - 1;
-}
 
 // Создать АВЛ-дерево
 TreeAVL::TreeAVL(int rootv) {
@@ -71,10 +14,6 @@ TreeAVL::TreeAVL(int rootv) {
     root->right = NULL;
 	root->value = rootv;
     root->height = 0;
-}
-
-TreeAVL::TreeAVL(std::string s) {
-    parse(s, root);
 }
 
 TreeAVL::TreeAVL(std::vector<int> v) {
@@ -100,10 +39,12 @@ TreeAVLNode* TreeAVL::max(TreeAVLNode* nd) {
 	return nd;
 }
 
+// Минимальный элемент дерева
 TreeAVLNode* TreeAVL::min() {
 	return min(root);
 }
 
+// Максимальный элемент дерева
 TreeAVLNode* TreeAVL::max() {
 	return max(root);
 }
@@ -117,6 +58,7 @@ unsigned TreeAVL::size(TreeAVLNode* root, unsigned size_count) {
         return size_count;
 }
 
+// Размер АВЛ-дерева
 unsigned TreeAVL::size() {
     return size(root, 0);
 }
@@ -144,6 +86,7 @@ TreeAVLNode* TreeAVL::search(int value, TreeAVLNode* root) {
     } else return NULL;
 }
 
+// Поиск в АВЛ-дереве значения
 TreeAVLNode* TreeAVL::search(int value) {
     return search(value, root);
 }
@@ -172,8 +115,9 @@ TreeAVLNode* TreeAVL::remove(int value, TreeAVLNode* root) {
     return root ? balance(root) : NULL;
 }
 
-TreeAVLNode* TreeAVL::remove(int value) {
-    return remove(value, root);
+// Удаление элемента из АВЛ-дерева
+void TreeAVL::remove(int value) {
+    root = remove(value, root);
 }
 
 // Добавить значение в АВЛ-дерево
