@@ -10,15 +10,18 @@ public:
 			make(i);
 	}
 
+	// Поиск элемента v в множествах
 	size_t find(size_t v) {
 		return (v == parent[v]) ? v : (parent[v] = find(parent[v]));
 	}
 
+	// Создать множество из одного элемента v
 	void make(size_t v) {
 		parent[v] = v;
 		rank[v] = 1;
 	}
 
+	// Объединение двух множеств a и b
 	void unite(size_t a, size_t b) {
 		a = find(a);
 		b = find(b);
