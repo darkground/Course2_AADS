@@ -38,9 +38,9 @@ public:
     Graph(std::vector<Edge>);
 
     static Graph fromFile(std::string);
-    Graph mst();
-    std::vector<Edge> get_edges();
-    unsigned get_mass();
+    Graph mst() const;
+    const std::vector<Edge> get_edges() const;
+    unsigned get_mass() const;
 };
 
 Graph::Graph() {
@@ -92,7 +92,7 @@ Graph Graph::fromFile(std::string path) {
 }
 
 // Поиск минимального остового дерева текущего графа
-Graph Graph::mst() {
+Graph Graph::mst() const {
     DSU dsu(edges.size());
 
     unsigned n = 0;
@@ -109,13 +109,13 @@ Graph Graph::mst() {
 }
 
 // Получить вершины графа
-std::vector<Edge> Graph::get_edges()
+const std::vector<Edge> Graph::get_edges() const
 {
     return edges;
 }
 
 // Получить массу графа
-unsigned Graph::get_mass()
+unsigned Graph::get_mass() const
 {
     return mass;
 }
