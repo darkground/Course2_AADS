@@ -11,14 +11,14 @@ struct Edge {
     std::string a, b;
     int u, v, weight;
     
-    // Simple
+    // Простой конструктор
     Edge(std::string x, std::string y, int w = 0) {
         a = x;
         b = y;
         weight = w;
     }
 
-    // Named
+    // Именованный конструктор
     Edge(std::vector<std::string>& named, int x, int y, int w = 0) : Edge(named[x], named[y], w) {
         u = x;
         v = y;
@@ -55,6 +55,7 @@ Graph::Graph(std::vector<Edge> e) {
     }
 }
 
+// Создать граф из файла
 Graph Graph::fromFile(std::string path) {
     std::vector<std::string> names;
     std::string next;
@@ -90,6 +91,7 @@ Graph Graph::fromFile(std::string path) {
     return Graph(edges);
 }
 
+// Поиск минимального остового дерева текущего графа
 Graph Graph::mst() {
     DSU dsu(edges.size());
 
@@ -106,11 +108,13 @@ Graph Graph::mst() {
     return Graph(mst);
 }
 
+// Получить вершины графа
 std::vector<Edge> Graph::get_edges()
 {
     return edges;
 }
 
+// Получить массу графа
 unsigned Graph::get_mass()
 {
     return mass;
