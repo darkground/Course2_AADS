@@ -34,6 +34,7 @@ class Graph {
     unsigned mass;
 
 public:
+    Graph();
     Graph(std::vector<Edge>);
 
     static Graph fromFile(std::string);
@@ -41,6 +42,10 @@ public:
     std::vector<Edge> get_edges();
     unsigned get_mass();
 };
+
+Graph::Graph() {
+    mass = 0;
+}
 
 Graph::Graph(std::vector<Edge> e) {
     edges = e;
