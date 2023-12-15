@@ -68,7 +68,7 @@ Graph Graph::fromFile(std::string path) {
     std::string next;
 
     std::ifstream ifs(path);
-    if (!ifs.is_open()) throw std::runtime_error("File not found");
+    if (!ifs.is_open()) throw std::runtime_error("File not found: " + path);
 
     std::string line;
     getline(ifs, line);
@@ -85,10 +85,12 @@ Graph Graph::fromFile(std::string path) {
             int w;
             ifs >> w;
             if (i < j) {
-                if (w <= 0) throw std::runtime_error("Invalid weights in file");
-                Edge e(names, i, j, w);
-                m += w;
-                edges.push_back(e);
+                if (w < 0) throw std::runtime_error("Invalid weights in file: " + std::to_string(w));
+                else if (w > 0) {
+                    Edge e(names, i, j, w);
+                    m += w;
+                    edges.push_back(e);
+                }
             }
         }
     }
