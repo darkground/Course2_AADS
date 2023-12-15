@@ -59,7 +59,9 @@ int main()
             "0. Exit\n"
             "1. Reload graph\n"
             "2. MST to console\n"
-            "3. MST to file\n\n";
+            "3. MST to file\n"
+            "4. Depth First Search\n"
+            "5. Breadth First Search\n\n";
         int choice = readValue<int>("Type a number to continue: ");
         cout << endl;
         switch (choice) {
@@ -83,6 +85,22 @@ int main()
                 for (Edge e : mst.get_edges())
                     ofs << e.a << ' ' << e.b << endl;
                 ofs << mst.get_mass();
+                break;
+            }
+            case 4: {
+                auto w = graph.dfs(graph.first());
+                for(std::string s : w) {
+                    cout << s << ' ';
+                }
+                cout << endl;
+                break;
+            }
+            case 5: {
+                auto w = graph.bfs(graph.first());
+                for(std::string s : w) {
+                    cout << s << ' ';
+                }
+                cout << endl;
                 break;
             }
             default:

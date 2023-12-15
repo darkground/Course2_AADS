@@ -4,6 +4,9 @@
 #include <fstream>
 #include <sstream>
 #include <algorithm>
+#include <stack>
+#include <unordered_set>
+#include <queue>
 #include "dsu.h"
 
 // Edge Structure
@@ -38,7 +41,11 @@ public:
     Graph(std::vector<Edge>);
 
     static Graph fromFile(std::string);
+
+    std::string first();
     Graph mst() const;
+    std::vector<std::string> dfs(const std::string&);
+    std::vector<std::string> bfs(const std::string&);
     const std::vector<Edge> get_edges() const;
     unsigned get_mass() const;
 };
@@ -89,6 +96,60 @@ Graph Graph::fromFile(std::string path) {
     std::sort(edges.begin(), edges.end());
 
     return Graph(edges);
+}
+
+std::string Graph::first() {
+    return edges.empty() ? "" : edges.front().a;
+}
+
+std::vector<std::string> Graph::dfs(const std::string& start) {
+    std::stack<std::string> stack;
+    std::unordered_set<std::string> visited;
+    std::vector<std::string> out;
+
+    stack.push(start);
+    while (!stack.empty()) {
+        std::string current = stack.top();
+        stack.pop();
+
+        if (visited.find(current) == visited.end()) {
+            out.push_back(current);
+            visited.insert(current);
+
+            for (const Edge& edge : edges) {
+                if (edge.a == current && visited.find(edge.b) == visited.end()) {
+                    stack.push(edge.b);
+                }
+            }
+        }
+    }
+
+    return out;
+}
+
+std::vector<std::string> Graph::bfs(const std::string& start) {
+    std::queue<std::string> queue;
+    std::unordered_set<std::string> visited;
+    std::vector<std::string> out;
+
+    queue.push(start);
+    while (!queue.empty()) {
+        std::string current = queue.front();
+        queue.pop();
+
+        if (visited.find(current) == visited.end()) {
+            std::cout << current << " ";
+            visited.insert(current);
+
+            for (const Edge& edge : edges) {
+                if (edge.a == current && visited.find(edge.b) == visited.end()) {
+                    queue.push(edge.b);
+                }
+            }
+        }
+    }
+
+    return out;
 }
 
 // Поиск минимального остового дерева текущего графа
