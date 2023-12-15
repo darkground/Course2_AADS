@@ -93,8 +93,6 @@ Graph Graph::fromFile(std::string path) {
         }
     }
 
-    std::sort(edges.begin(), edges.end());
-
     return Graph(edges);
 }
 
@@ -158,7 +156,9 @@ Graph Graph::mst() const {
 
     unsigned n = 0;
     std::vector<Edge> mst;
-    for (Edge e : edges) {
+    std::vector<Edge> edges_sorted(edges);
+    std::sort(edges_sorted.begin(), edges_sorted.end()); 
+    for (Edge e : edges_sorted) {
         if (dsu.find(e.u) != dsu.find(e.v)) {
             n += e.weight;
             mst.push_back(e);
